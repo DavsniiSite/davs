@@ -16,10 +16,12 @@ model Products {
   id String @id @default(uuid()) 
   infoImg String 
   subTitleMn String 
+  subTitleJp String 
   subTitleKr String 
-  subTitleC String 
+  subTitleCn String 
   subTitleEn String 
   captionEn String 
+  captionJp String 
   captionMn String 
   captionKr String 
   captionCn String 

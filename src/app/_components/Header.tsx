@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useLanguage } from "../_components/LanguageContext";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [pathName, setPathName] = useState("");
@@ -13,6 +14,35 @@ const Header = () => {
       setPathName(url.pathname);
     }
   }, []);
+  const [selectedLang, setSelectedLang] = useState("");
+
+  const languages = ["en", "mn", "cn", "jp", "kr"];
+
+  useEffect(() => {
+    const pathParts = window.location.pathname.split("/");
+    const lastPart = pathParts[pathParts.length - 1];
+
+    if (languages.includes(lastPart)) {
+      setSelectedLang(lastPart);
+    } else {
+      setSelectedLang("");
+    }
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const lang = e.target.value;
+    let pathParts = window.location.pathname.split("/");
+
+    if (languages.includes(pathParts[pathParts.length - 1])) {
+      pathParts[pathParts.length - 1] = lang;
+    } else {
+      pathParts.push(lang);
+    }
+
+    const newPath = pathParts.join("/");
+
+    window.location.pathname = newPath;
+  };
 
   return (
     <header className="bg-[#f1b3b6] h-[100px] flex items-center justify-between p-5 ">
@@ -51,12 +81,19 @@ const Header = () => {
               : "Холбоо барих"}
           </button>
         ))}
-        <button
-          onClick={() => toggleLanguage(language === "en" ? "mn" : "en")}
+        <select
+          onChange={handleChange}
+          value={selectedLang}
           className="ml-4 p-2 bg-[#44aeff] opacity-[90%]  text-[#EFEFEF] rounded-lg hover:bg-[#44aeff] hover:opacity-100 transition-all"
         >
-          {language === "en" ? "Монгол" : "English"}
-        </button>
+          {languages.map((lang) => {
+            return (
+              <option key={lang} value={lang}>
+                {lang.toUpperCase()}
+              </option>
+            );
+          })}
+        </select>
       </div>
 
       <div className="lg:hidden flex items-center">

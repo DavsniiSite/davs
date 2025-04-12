@@ -1,161 +1,165 @@
 "use client";
-import { useState, useEffect, ChangeEvent } from "react";
-import { useLanguage } from "../_components/LanguageContext";
-import { useRouter } from "next/navigation";
+import { useState, ChangeEvent, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 const Header = () => {
-  const [pathName, setPathName] = useState("");
-  const { language, toggleLanguage } = useLanguage();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      setPathName(url.pathname);
-    }
-  }, []);
-  const [selectedLang, setSelectedLang] = useState("");
+  const pathname = usePathname();
+  const router = useRouter();
 
   const languages = ["en", "mn", "cn", "jp", "kr"];
+  const [selectedLang, setSelectedLang] = useState<
+    "en" | "mn" | "cn" | "jp" | "kr"
+  >("mn");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const routes = [
+    {
+      path: "about",
+      label: {
+        en: "About",
+        mn: "Бидний тухай",
+        cn: "关于我们",
+        jp: "会社概要",
+        kr: "회사 소개",
+      },
+    },
+    {
+      path: "products",
+      label: {
+        en: "Products",
+        mn: "Бүтээгдэхүүн",
+        cn: "产品",
+        jp: "製品",
+        kr: "제품",
+      },
+    },
+    {
+      path: "contact",
+      label: {
+        en: "Contact",
+        mn: "Холбоо барих",
+        cn: "联系我们",
+        jp: "お問い合わせ",
+        kr: "연락처",
+      },
+    },
+  ];
 
   useEffect(() => {
-    const pathParts = window.location.pathname.split("/");
-    const lastPart = pathParts[pathParts.length - 1];
+    const parts = pathname.split("/").filter(Boolean);
+    const currentLang = (parts[0] ?? "mn") as typeof selectedLang;
+    setSelectedLang(currentLang);
+  }, [pathname]);
 
-    if (languages.includes(lastPart)) {
-      setSelectedLang(lastPart);
-    } else {
-      setSelectedLang("");
-    }
-  }, []);
+  const handleLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value;
+    const parts = pathname.split("/").filter(Boolean);
+    parts[0] = newLang;
+    const newPath = "/" + parts.join("/");
+    router.push(newPath);
+  };
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value;
-    let pathParts = window.location.pathname.split("/");
+  const handleRouteChange = (route: string) => {
+    router.push(`/${selectedLang}/${route}`);
+  };
 
-    if (languages.includes(pathParts[pathParts.length - 1])) {
-      pathParts[pathParts.length - 1] = lang;
-    } else {
-      pathParts.push(lang);
-    }
-
-    const newPath = pathParts.join("/");
-
-    window.location.pathname = newPath;
+  const isActiveRoute = (route: string) => {
+    const parts = pathname.split("/").filter(Boolean);
+    return parts[1] === route;
   };
 
   return (
-    <header className="bg-[#f1b3b6] h-[100px] flex items-center justify-between p-5 ">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#f8e5e6] h-[90px] flex items-center justify-between px-8 border-b border-[#e0d6d7]">
       <button
-        onClick={() => (window.location.href = "/")}
-        className="hover:cursor-pointer bg-transparent border-none pl-4"
+        onClick={() => router.push(`/${selectedLang}`)}
+        className="hover:cursor-pointer bg-transparent border-none"
       >
         <img
-          className="h-[95px] w-[130px] border-none bg-cover"
+          className="h-[80px] w-auto"
           src="https://i.imgur.com/tfJ11tq.png"
+          alt="Logo"
         />
       </button>
 
-      <div className="hidden lg:flex items-center text-[#EFEFEF] font-bold">
-        {["/", "/about", "/products", "/contact"].map((route) => (
+      <div className="hidden lg:flex items-center space-x-8">
+        {routes.map((route) => (
           <button
-            key={route}
-            onClick={() => (window.location.href = route)}
-            className={`p-2 transition-colors duration-300 ease-out ${
-              pathName === route
-                ? "text-[#44aeff] border-b-2 border-[#44aeff]"
-                : "hover:text-[#44aeff] hover:border-b-2 hover:border-[#44aeff]"
+            key={route.path}
+            onClick={() => handleRouteChange(route.path)}
+            className={`py-2 px-1 text-[#555] font-medium transition-colors duration-200 ${
+              isActiveRoute(route.path)
+                ? "text-[#3a7ca5] border-b-2 border-[#3a7ca5]"
+                : "hover:text-[#3a7ca5]"
             }`}
           >
-            {language === "en"
-              ? route === "/"
-                ? "Home"
-                : route.substring(1).charAt(0).toUpperCase() +
-                  route.substring(2)
-              : route === "/"
-              ? "Нүүр"
-              : route === "/about"
-              ? "Бидний тухай"
-              : route === "/products"
-              ? "Бүтээгдэхүүн"
-              : "Холбоо барих"}
+            {route.label[selectedLang]}
           </button>
         ))}
         <select
-          onChange={handleChange}
+          onChange={handleLanguageChange}
           value={selectedLang}
-          className="ml-4 p-2 bg-[#44aeff] opacity-[90%]  text-[#EFEFEF] rounded-lg hover:bg-[#44aeff] hover:opacity-100 transition-all"
+          className="ml-4 p-2 bg-white text-[#555] rounded-md border border-[#ddd] focus:outline-none focus:ring-1 focus:ring-[#3a7ca5]"
         >
-          {languages.map((lang) => {
-            return (
-              <option key={lang} value={lang}>
-                {lang.toUpperCase()}
-              </option>
-            );
-          })}
+          {languages.map((lang) => (
+            <option key={lang} value={lang}>
+              {lang.toUpperCase()}
+            </option>
+          ))}
         </select>
       </div>
 
-      <div className="lg:hidden flex items-center">
-        <button
-          className="p-2 bg-[#FF8A00] text-[#EFEFEF] rounded-lg"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      <button
+        className="lg:hidden p-2 text-[#555]"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="w-6 h-6"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-      </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
 
       {isMobileMenuOpen && (
-        <div className="absolute top-[100px] left-0 w-full bg-[#24182E] p-5 lg:hidden">
-          {["/", "/about", "/services", "/contact"].map((route) => (
+        <div className="absolute top-[90px] left-0 right-0 bg-white shadow-lg lg:hidden p-4">
+          {routes.map((route) => (
             <button
-              key={route}
+              key={route.path}
               onClick={() => {
-                window.location.href = route;
+                handleRouteChange(route.path);
                 setIsMobileMenuOpen(false);
               }}
-              className={`block p-2 text-[#EFEFEF] transition-colors duration-300 ease-out ${
-                pathName === route
-                  ? "text-[#FF8A00] border-b-2 border-[#FF8A00]"
-                  : "hover:text-[#FF8A00] hover:border-b-2 hover:border-[#FF8A00]"
+              className={`block w-full text-left py-3 px-4 text-[#555] ${
+                isActiveRoute(route.path)
+                  ? "bg-[#f0f7fc]"
+                  : "hover:bg-[#f9f9f9]"
               }`}
             >
-              {language === "en"
-                ? route === "/"
-                  ? "Home"
-                  : route.substring(1).charAt(0).toUpperCase() +
-                    route.substring(2)
-                : route === "/"
-                ? "Нүүр"
-                : route === "/about"
-                ? "Бидний тухай"
-                : route === "/services"
-                ? "Үйлчилгээ"
-                : "Холбоо барих"}
+              {route.label[selectedLang]}
             </button>
           ))}
-          <button
-            onClick={() => {
-              toggleLanguage(language === "en" ? "mn" : "en");
+          <select
+            onChange={(e) => {
+              handleLanguageChange(e);
               setIsMobileMenuOpen(false);
             }}
-            className="block mt-4 p-2 bg-[#FF8A00] text-[#EFEFEF] rounded-lg hover:bg-[#FF8A00] hover:opacity-100 transition-all"
+            value={selectedLang}
+            className="mt-2 w-full p-2 bg-white text-[#555] rounded-md border border-[#ddd]"
           >
-            {language === "en" ? "Монгол" : "English"}
-          </button>
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>
+                {lang.toUpperCase()}
+              </option>
+            ))}
+          </select>
         </div>
       )}
     </header>

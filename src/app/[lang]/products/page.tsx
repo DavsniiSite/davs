@@ -88,9 +88,10 @@ const ServicesPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          "https://ihoch-backend.onrender.com/service/getServices"
-        );
+        const response = await fetch("../../api/product/getProducts", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
         const data = await response.json();
         setProducts(data);
       } catch (err) {
@@ -102,7 +103,7 @@ const ServicesPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-[#333]"> 
+    <div className="min-h-screen bg-[#f9f9f9] text-[#333]">
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center bg-gray-100">
         <div className="absolute inset-0 bg-[url('https://media.discordapp.net/attachments/1342080785250779177/1360451754445115533/IMG_4867.jpg')] bg-cover bg-center opacity-70"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#f8e5e6] to-[#e2f1f8] opacity-90"></div>
@@ -115,7 +116,7 @@ const ServicesPage = () => {
           </p>
         </div>
       </section>
- 
+
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-light text-center text-[#333] mb-12">
@@ -177,7 +178,7 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
- 
+
       <section className="py-16 bg-gradient-to-b from-[#f8f8f8] to-[#e8f4fc]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-light text-[#333] mb-6">

@@ -21,14 +21,11 @@ const AdminLogin = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://ihoch-backend.onrender.com/admin/loginAdmin",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber, password }),
-        }
-      );
+      const response = await fetch("/api/admin/loginAdmin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber: Number(phoneNumber), password }),
+      });
 
       const data = await response.json();
 
@@ -84,7 +81,7 @@ const AdminLogin = () => {
           className={`w-full p-3 text-white rounded-lg transition-colors ${
             loading
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#F7941D] hover:bg-[#FF8A00]"
+              : "bg-shuden-pink hover:bg-shuden-pink"
           }`}
           disabled={loading}
         >

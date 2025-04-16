@@ -8,7 +8,7 @@ type Product = {
   infoImg: string;
   subTitleMn: string;
   subTitleKr: string;
-  subTitleC: string;
+  subTitleCn: string;
   subTitleEn: string;
   captionEn: string;
   captionMn: string;
@@ -26,7 +26,7 @@ const Product = ({ language }: { language: string }) => {
     infoImg: "",
     subTitleMn: "",
     subTitleKr: "",
-    subTitleC: "",
+    subTitleCn: "",
     subTitleEn: "",
     captionEn: "",
     captionMn: "",
@@ -40,7 +40,7 @@ const Product = ({ language }: { language: string }) => {
     "subTitleEn",
     "subTitleMn",
     "subTitleKr",
-    "subTitleC",
+    "subTitleCn",
     "captionEn",
     "captionMn",
     "captionKr",
@@ -49,7 +49,10 @@ const Product = ({ language }: { language: string }) => {
   ];
 
   const getProducts = async () => {
-    const res = await fetch("https://ihoch-backend.onrender.com/product/get");
+    const res = await fetch("/api/product/getProducts", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await res.json();
     setProducts(data);
   };
@@ -66,22 +69,15 @@ const Product = ({ language }: { language: string }) => {
 
   const createProduct = async () => {
     if (requiredFields.some((field) => !newProduct[field])) {
-      alert(
-        language === "en"
-          ? "Please fill in all required fields!"
-          : "Бүх талбарыг бөглөнө үү!"
-      );
+      alert("Бүх талбарыг бөглөнө үү!");
       return;
     }
 
-    const res = await fetch(
-      "https://ihoch-backend.onrender.com/product/create",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProduct),
-      }
-    );
+    const res = await fetch("/api/product/addProduct", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newProduct),
+    });
 
     if (!res.ok) return alert("Error creating product");
 
@@ -90,7 +86,7 @@ const Product = ({ language }: { language: string }) => {
       infoImg: "",
       subTitleMn: "",
       subTitleKr: "",
-      subTitleC: "",
+      subTitleCn: "",
       subTitleEn: "",
       captionEn: "",
       captionMn: "",

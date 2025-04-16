@@ -4,7 +4,7 @@ type EditedProduct = {
   infoImg: string;
   subTitleMn: string;
   subTitleKr: string;
-  subTitleC: string;
+  subTitleCn: string;
   subTitleEn: string;
   captionEn: string;
   captionMn: string;
@@ -38,7 +38,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
     ["subTitleEn", "Subtitle (English)"],
     ["subTitleMn", "Subtitle (Mongolian)"],
     ["subTitleKr", "Subtitle (Korean)"],
-    ["subTitleC", "Subtitle (Chinese)"],
+    ["subTitleCn", "Subtitle (Chinese)"],
     ["captionEn", "Caption (English)"],
     ["captionMn", "Caption (Mongolian)"],
     ["captionKr", "Caption (Korean)"],

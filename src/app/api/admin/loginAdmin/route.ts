@@ -22,6 +22,7 @@ export const POST = async (req: Request) => {
     const token = jwt.sign({ adminId: admin.id }, process.env.JWT_SECRET!, {
       expiresIn: "3h",
     });
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     return NextResponse.json({ token }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Login error" }, { status: 404 });

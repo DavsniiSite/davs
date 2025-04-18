@@ -9,10 +9,11 @@ export const POST = async (req: Request) => {
     const body = await req.json();
     const { phoneNumber, email, password } = body;
     const hashedPassword = bcrypt.hashSync(password, 10);
+    console.log(hashedPassword);
     const response = await prisma.admins.create({
       data: {
         id: nanoid(),
-        phoneNumber,
+        phoneNumber: Number(phoneNumber),
         email,
         password: hashedPassword,
       },
@@ -21,10 +22,11 @@ export const POST = async (req: Request) => {
       expiresIn: "3h",
     });
     return NextResponse.json({ token }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
       {
         message: "Failed to create admin",
+        error: error.message,
       },
       { status: 404 }
     );

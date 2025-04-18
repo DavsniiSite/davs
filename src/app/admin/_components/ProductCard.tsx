@@ -25,7 +25,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product,
   updateField,
   onUpdate,
-  language,
 }) => {
   const fields: [keyof Product, string][] = [
     ["subTitleEn", "Subtitle (English)"],
@@ -63,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         onClick={onUpdate}
         className="w-full mt-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
       >
-        {language === "en" ? "Update" : "Шинэчлэх"}
+        Шинэчлэх
       </button>
     </div>
   );

@@ -10,10 +10,12 @@ type Product = {
   subTitleKr: string;
   subTitleCn: string;
   subTitleEn: string;
+  subTitleJp: string;
   captionEn: string;
   captionMn: string;
   captionKr: string;
   captionCn: string;
+  captionJp: string;
   price: number;
 };
 
@@ -28,8 +30,10 @@ const Product = ({ language }: { language: string }) => {
     subTitleKr: "",
     subTitleCn: "",
     subTitleEn: "",
+    subTitleJp: "",
     captionEn: "",
     captionMn: "",
+    captionJp: "",
     captionKr: "",
     captionCn: "",
     price: 0,
@@ -41,7 +45,9 @@ const Product = ({ language }: { language: string }) => {
     "subTitleMn",
     "subTitleKr",
     "subTitleCn",
+    "subTitleJp",
     "captionEn",
+    "captionJp",
     "captionMn",
     "captionKr",
     "captionCn",
@@ -88,7 +94,9 @@ const Product = ({ language }: { language: string }) => {
       subTitleKr: "",
       subTitleCn: "",
       subTitleEn: "",
+      subTitleJp: "",
       captionEn: "",
+      captionJp: "",
       captionMn: "",
       captionKr: "",
       captionCn: "",

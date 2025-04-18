@@ -6,7 +6,9 @@ type EditedProduct = {
   subTitleKr: string;
   subTitleCn: string;
   subTitleEn: string;
+  subTitleJp: string;
   captionEn: string;
+  captionJp: string;
   captionMn: string;
   captionKr: string;
   captionCn: string;
@@ -39,10 +41,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
     ["subTitleMn", "Subtitle (Mongolian)"],
     ["subTitleKr", "Subtitle (Korean)"],
     ["subTitleCn", "Subtitle (Chinese)"],
+    ["subTitleJp", "Subtitle (Japan)"],
     ["captionEn", "Caption (English)"],
     ["captionMn", "Caption (Mongolian)"],
     ["captionKr", "Caption (Korean)"],
     ["captionCn", "Caption (Chinese)"],
+    ["captionJp", "Caption (Japan)"],
   ];
 
   return (

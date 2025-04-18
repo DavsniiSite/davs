@@ -24,7 +24,7 @@ export const POST = async (req: Request) => {
     });
     console.log("JWT_SECRET:", process.env.JWT_SECRET);
     return NextResponse.json({ token }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ message: "Login error" }, { status: 404 });
+  } catch (error: unknown) {
+    return NextResponse.json({ message: `Login ${error}` }, { status: 404 });
   }
 };

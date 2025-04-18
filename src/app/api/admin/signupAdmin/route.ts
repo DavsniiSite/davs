@@ -22,11 +22,15 @@ export const POST = async (req: Request) => {
       expiresIn: "3h",
     });
     return NextResponse.json({ token }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) { // Changed `any` to `unknown`
+    let errorMessage = "Failed to create admin";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
     return NextResponse.json(
       {
-        message: "Failed to create admin",
-        error: error.message,
+        message: errorMessage,
+        error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 404 }
     );

@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         alt={product.subTitleEn}
         className="w-20 h-20 object-cover mx-auto mb-4"
       />
-      {fields.map(([field, label]) => (
+      {fields.map(([field]) => (
         <input
           key={field}
           className="w-full p-2 border rounded mb-2"

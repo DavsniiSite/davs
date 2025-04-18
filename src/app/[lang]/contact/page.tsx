@@ -1,12 +1,27 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-
+interface Translation {
+  title: string;
+  subtitle: string;
+  contact: string;
+  phone: string;
+  email: string;
+  address: string;
+  map: string;
+  visit: string;
+  hours: string;
+  monFri: string;
+  sat: string;
+  sun: string;
+  whyUs: string;
+  points: string[];
+}
 const ContactPage = () => {
   const pathname = usePathname();
   const lang = pathname.split("/")[1] || "mn";
 
-  const t: Record<string, any> = {
+  const t: Record<string, Translation> = {
     en: {
       title: "Contact Us",
       subtitle: "Reach out for inquiries about our natural pink salt products.",

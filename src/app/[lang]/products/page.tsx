@@ -106,7 +106,7 @@ const ServicesPage = () => {
     <div className="min-h-screen bg-[#f9f9f9] text-[#333]">
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center bg-gray-100">
         <div className="absolute inset-0 bg-[url('https://media.discordapp.net/attachments/1342080785250779177/1360451754445115533/IMG_4867.jpg')] bg-cover bg-center opacity-70"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f8e5e6] to-[#e2f1f8] opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FFDF00] to-[#f2cc6b] opacity-90"></div>
         <div className="relative z-10 text-center px-6">
           <h1 className="text-4xl md:text-5xl font-light text-[#333] mb-6">
             {t?.heroTitle}

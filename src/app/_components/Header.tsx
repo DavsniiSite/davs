@@ -1,6 +1,7 @@
 "use client";
 import { useState, ChangeEvent, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import path from "path";
 
 const Header = () => {
   const pathname = usePathname();
@@ -31,6 +32,16 @@ const Header = () => {
         cn: "产品",
         jp: "製品",
         kr: "제품",
+      },
+    },
+    {
+      path: "info",
+      label: {
+        en: "Information",
+        mn: "Мэдээ мэдээлэл",
+        cn: "资讯",
+        jp: "情報",
+        kr: "정보",
       },
     },
     {

@@ -42,24 +42,26 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#333] text-white pt-16 pb-8">
+    <footer className="bg-[#f8e5e6] text-white pt-16 pb-8">
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h3 className="text-xl font-light mb-4">Shuden Rock Salt</h3>
-          <p className="text-[#bbb] text-sm leading-relaxed">
+          <h3 className="text-xl font-light mb-4 text-black">
+            Shuden Rock Salt
+          </h3>
+          <p className="text-[black] text-sm leading-relaxed">
             {translateMotto[language]}
           </p>
         </div>
 
         <div className="text-center md:text-left">
-          <h4 className="text-lg font-light mb-4">
+          <h4 className="text-lg font-light mb-4 text-black">
             {translateQuickLinks[language]}
           </h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 ">
             <li>
               <a
                 href={`/about/${language}`}
-                className="text-[#bbb] hover:text-white text-sm transition-colors"
+                className="text-[black] hover:text-white text-sm transition-colors"
               >
                 {language === "en"
                   ? "About"
@@ -75,7 +77,7 @@ const Footer = () => {
             <li>
               <a
                 href={`/services/${language}`}
-                className="text-[#bbb] hover:text-white text-sm transition-colors"
+                className="text-[black] hover:text-white text-sm transition-colors"
               >
                 {language === "en"
                   ? "Services"
@@ -91,7 +93,7 @@ const Footer = () => {
             <li>
               <a
                 href={`/contact/${language}`}
-                className="text-[#bbb] hover:text-white text-sm transition-colors"
+                className="text-[black] hover:text-white text-sm transition-colors"
               >
                 {language === "en"
                   ? "Contact"
@@ -108,7 +110,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center md:text-right">
-          <h4 className="text-lg font-light mb-4">
+          <h4 className="text-lg font-light mb-4 text-black">
             {translateFollowUs[language]}
           </h4>
           <div className="flex justify-center md:justify-end space-x-4">
@@ -135,7 +137,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pt-8 mt-8 border-t border-[#444]">
-        <p className="text-center text-[#999] text-xs">
+        <p className="text-center text-[black] text-xs">
           &copy; {new Date().getFullYear()} Shuden Rock Salt.{" "}
           {translations[language]}
         </p>

@@ -137,7 +137,7 @@ const ContactPage = () => {
     <div className="bg-[#f9f9f9]">
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center bg-gray-100">
         <div className="absolute inset-0 bg-[url('https://media.discordapp.net/attachments/1342080785250779177/1360451754445115533/IMG_4867.jpg')] bg-cover bg-center opacity-70"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f8e5e6] to-[#e2f1f8] opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FFDF00] to-[#f2cc6b] opacity-90"></div>
         <div className="relative z-10 text-center px-6">
           <h1 className="text-4xl md:text-5xl font-light text-[#333] mb-4">
             {t[lang]?.title}

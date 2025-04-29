@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 
 type EditedProduct = {
   infoImg: string;
@@ -20,6 +22,11 @@ interface ProductFormProps {
   setProduct: (product: EditedProduct) => void;
   onSubmit: () => void;
   language: string;
+  images: FileList | null;
+  setImages: React.Dispatch<React.SetStateAction<FileList | null>>;
+  uploadImages: () => void;
+  uploading: boolean;
+  uploadedImages: string[];
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({
@@ -27,6 +34,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
   setProduct,
   onSubmit,
   language,
+  setImages,
+  uploadImages,
+  uploading,
+  uploadedImages,
 }) => {
   const handleChange = (field: keyof EditedProduct, value: string) => {
     setProduct({
@@ -36,17 +47,16 @@ const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   const fields: [keyof EditedProduct, string][] = [
-    ["infoImg", "Image URL"],
     ["subTitleEn", "Subtitle (English)"],
     ["subTitleMn", "Subtitle (Mongolian)"],
     ["subTitleKr", "Subtitle (Korean)"],
     ["subTitleCn", "Subtitle (Chinese)"],
-    ["subTitleJp", "Subtitle (Japan)"],
+    ["subTitleJp", "Subtitle (Japanese)"],
     ["captionEn", "Caption (English)"],
     ["captionMn", "Caption (Mongolian)"],
     ["captionKr", "Caption (Korean)"],
     ["captionCn", "Caption (Chinese)"],
-    ["captionJp", "Caption (Japan)"],
+    ["captionJp", "Caption (Japanese)"],
   ];
 
   return (
@@ -54,6 +64,33 @@ const ProductForm: React.FC<ProductFormProps> = ({
       <h2 className="text-2xl font-bold mb-4">
         {language === "en" ? "Create New Product" : "Шинэ бүтээгдэхүүн"}
       </h2>
+      <input
+        className="w-full p-2 border rounded mb-2"
+        placeholder="Upload your image"
+        onChange={(e) => {
+          const files = e.target.files;
+          if (files) {
+            setImages(files);
+          }
+        }}
+        type="file"
+      />
+      <Button onClick={uploadImages} className="hover:cursor-pointer mb-3">
+        {uploading ? "Uploading" : "Upload"}
+      </Button>
+      <div className="w-90% pb-3">
+        {uploadedImages.map((img, index) => (
+          <div className="flex flex-col gap-4" key={index}>
+            <img
+              src={img}
+              className="aspect-auto rounded-lg shadow-lg w-[300px]"
+              alt="Uploaded"
+              width={50}
+              height={50}
+            />
+          </div>
+        ))}
+      </div>
       {fields.map(([key, label]) => (
         <input
           key={key}
@@ -67,7 +104,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
         type="number"
         className="w-full p-2 border rounded mb-2"
         placeholder={language === "en" ? "Price" : "Үнэ"}
-        value={product.price}
         onChange={(e) => handleChange("price", e.target.value)}
       />
       <button

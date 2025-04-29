@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
 import ProductCard from "./ProductCard";
+import { log } from "console";
 
 type Product = {
   _id: string;
@@ -38,6 +39,10 @@ const Product = ({ language }: { language: string }) => {
     captionCn: "",
     price: 0,
   });
+  const [images, setImages] = useState<FileList | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [uploading, setUploading] = useState(false);
 
   const requiredFields: (keyof EditedProduct)[] = [
     "infoImg",
@@ -72,6 +77,52 @@ const Product = ({ language }: { language: string }) => {
       )
     );
   };
+  const uploadImages = async () => {
+    if (!images) return;
+
+    setUploading(true);
+
+    try {
+      const uploadPromises = Array.from(images).map(async (image) => {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "ace_area");
+        formData.append("cloud_name", "dl93ggn7x");
+
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dl93ggn7x/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
+
+        const result = await response.json();
+        console.log(result.secure_url);
+        return result.secure_url;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (uploadedImages.length > 0) {
+      setNewProduct((prev) => ({
+        ...prev,
+        infoImg: uploadedImages[0],
+      }));
+    }
+  }, [uploadedImages]);
 
   const createProduct = async () => {
     if (requiredFields.some((field) => !newProduct[field])) {
@@ -89,7 +140,7 @@ const Product = ({ language }: { language: string }) => {
 
     await getProducts();
     setNewProduct({
-      infoImg: "",
+      infoImg: uploadedImages[0],
       subTitleMn: "",
       subTitleKr: "",
       subTitleCn: "",
@@ -148,6 +199,11 @@ const Product = ({ language }: { language: string }) => {
           setProduct={setNewProduct}
           onSubmit={createProduct}
           language={language}
+          images={images}
+          setImages={setImages}
+          uploadImages={uploadImages}
+          uploading={uploading}
+          uploadedImages={uploadedImages}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

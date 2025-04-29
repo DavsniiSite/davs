@@ -7,7 +7,9 @@ type Product = {
   subTitleKr: string;
   subTitleCn: string;
   subTitleEn: string;
+  subTitleJp: string;
   captionEn: string;
+  captionJp: string;
   captionMn: string;
   captionKr: string;
   captionCn: string;
@@ -31,7 +33,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     ["subTitleMn", "Subtitle (Mongolian)"],
     ["subTitleKr", "Subtitle (Korean)"],
     ["subTitleCn", "Subtitle (Chinese)"],
+    ["subTitleJp", "Subtitle (Japanese)"],
     ["captionEn", "Caption (English)"],
+    ["captionJp", "Caption (Japanese)"],
     ["captionMn", "Caption (Mongolian)"],
     ["captionKr", "Caption (Korean)"],
     ["captionCn", "Caption (Chinese)"],

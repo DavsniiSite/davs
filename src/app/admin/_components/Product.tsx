@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
-import ProductCard from "./ProductCard";
-import { log } from "console";
+import ProductCard from "./ProductCard"; 
 
 type Product = {
   _id: string;
@@ -40,8 +39,7 @@ const Product = ({ language }: { language: string }) => {
     price: 0,
   });
   const [images, setImages] = useState<FileList | null>(null);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]); 
   const [uploading, setUploading] = useState(false);
 
   const requiredFields: (keyof EditedProduct)[] = [

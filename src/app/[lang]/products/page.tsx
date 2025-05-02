@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { GiCrystalBars } from "react-icons/gi";
 
 interface Product {
   id: string;
@@ -113,130 +111,6 @@ const ServicesPage = () => {
     }[lang];
   }, [lang]);
 
-  const getProductBenefits = (productTitle: string): string[] => {
-    const benefits: Record<string, Record<string, string[]>> = {
-      en: {
-        "White Salt": [
-          "Rich in 84+ essential minerals",
-          "Food-grade purity with no additives",
-          "Natural preservative properties",
-          "Enhances flavor naturally",
-        ],
-        "Pink Salt": [
-          "Contains 84+ trace minerals",
-          "Helps balance body's pH levels",
-          "Natural electrolyte source",
-          "Supports hydration",
-        ],
-        "Bath Salt": [
-          "Promotes muscle relaxation",
-          "Detoxifies and rejuvenates skin",
-          "Reduces stress and anxiety",
-          "Improves sleep quality",
-        ],
-        "Salt Lamp": [
-          "Purifies air naturally",
-          "Reduces allergens and pollutants",
-          "Creates calming ambiance",
-          "Neutralizes electromagnetic radiation",
-        ],
-        "Salt Blocks": [
-          "Perfect for cooking and serving",
-          "Imparts subtle salt flavor",
-          "Retains temperature exceptionally",
-          "Naturally antibacterial surface",
-        ],
-      },
-      mn: {
-        "Цагаан давс": [
-          "84+ эрдэс бодисоор баялаг",
-          "Нэмэлтгүй хүнсний цэвэршил",
-          "Байгалийн хадгалагуур шинж",
-          "Амтыг байгалийн гараар сайжруулдаг",
-        ],
-        "Ягаан давс": [
-          "84+ тодорхойлогч эрдэс агуулдаг",
-          "Биеийн pH түвшинг тэнцвэржүүлэхэд тусалдаг",
-          "Байгалийн электролитийн эх үүсвэр",
-          "Усжуулалтыг дэмждэг",
-        ],
-        "Угаалгын давс": [
-          "Булчингийн тайтгалыг дэмждэг",
-          "Арьсыг цэвэрлэж, шинэчлэх",
-          "Стресс, түгшүүрийг бууруулдаг",
-          "Унтах чанарыг сайжруулдаг",
-        ],
-      },
-      jp: {
-        白塩: [
-          "84種類以上の必須ミネラルが豊富",
-          "添加物なしの食品グレード品質",
-          "天然防腐特性",
-          "自然に風味を向上",
-        ],
-        ピンクソルト: [
-          "84+微量ミネラル含有",
-          "体のpHバランス調整を支援",
-          "天然電解質源",
-          "水分補給をサポート",
-        ],
-        バスソルト: [
-          "筋肉リラクゼーション促進",
-          "肌の解毒と若返り",
-          "ストレスと不安軽減",
-          "睡眠の質向上",
-        ],
-      },
-      cn: {
-        白盐: [
-          "富含84+种必需矿物质",
-          "无添加剂食品级纯度",
-          "天然防腐特性",
-          "自然增强风味",
-        ],
-        粉红盐: [
-          "含84+种微量元素",
-          "帮助平衡身体pH值",
-          "天然电解质来源",
-          "支持水合作用",
-        ],
-        浴盐: [
-          "促进肌肉放松",
-          "排毒和恢复皮肤活力",
-          "减轻压力和焦虑",
-          "改善睡眠质量",
-        ],
-      },
-      kr: {
-        "흰 소금": [
-          "84가지 이상의 필수 미네랄 풍부",
-          "첨가제 없는 식품 등급 순도",
-          "천연 방부 특성",
-          "자연스럽게 풍미 향상",
-        ],
-        "핑크 소금": [
-          "84+ 미량 미네랄 함유",
-          "체내 pH 밸런스 조절 지원",
-          "천연 전해질 공급원",
-          "수분 보충 지원",
-        ],
-        "목욕 소금": [
-          "근육 이완 촉진",
-          "피부 탈독 및 활력 회복",
-          "스트레스와 불안 감소",
-          "수면 질 향상",
-        ],
-      },
-    };
-
-    const langBenefits = benefits[lang as keyof typeof benefits];
-    if (!langBenefits) return [];
-
-    const productBenefits =
-      langBenefits[productTitle as keyof typeof langBenefits];
-    return productBenefits || [];
-  };
-
   return (
     <div className="min-h-screen bg-[#f9f9f9] pt-[90px]">
       <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center bg-gray-900 overflow-hidden">
@@ -334,7 +208,6 @@ const ServicesPage = () => {
                 product[`subTitle${formattedLang}` as keyof Product];
               const caption =
                 product[`caption${formattedLang}` as keyof Product];
-              const benefits = getProductBenefits(product.subTitleEn);
 
               return (
                 <div

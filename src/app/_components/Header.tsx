@@ -1,16 +1,14 @@
 "use client";
 import { useState, ChangeEvent, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import path from "path";
 
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const languages = ["en", "mn", "cn", "jp", "kr"];
-  const [selectedLang, setSelectedLang] = useState<
-    "en" | "mn" | "cn" | "jp" | "kr"
-  >("mn");
+  const languages = ["en", "mn", "cn", "jp", "kr"] as const;
+  const [selectedLang, setSelectedLang] =
+    useState<(typeof languages)[number]>("en");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const routes = [
@@ -58,12 +56,12 @@ const Header = () => {
 
   useEffect(() => {
     const parts = pathname.split("/").filter(Boolean);
-    const currentLang = (parts[0] ?? "mn") as typeof selectedLang;
+    const currentLang = (parts[0] ?? "en") as typeof selectedLang;
     setSelectedLang(currentLang);
   }, [pathname]);
 
   const handleLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const newLang = e.target.value;
+    const newLang = e.target.value as typeof selectedLang;
     const parts = pathname.split("/").filter(Boolean);
     parts[0] = newLang;
     const newPath = "/" + parts.join("/");
@@ -74,15 +72,19 @@ const Header = () => {
     router.push(`/${selectedLang}/${route}`);
   };
 
+  const handleLogoClick = () => {
+    router.push(`/${selectedLang}/about`);
+  };
+
   const isActiveRoute = (route: string) => {
     const parts = pathname.split("/").filter(Boolean);
     return parts[1] === route;
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#f8e5e6] h-[90px] flex items-center justify-between px-8 border-b border-[#e0d6d7]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a2540] h-[90px] flex items-center justify-between px-8 border-b border-[#d4af37]">
       <button
-        onClick={() => router.push(`/${selectedLang}`)}
+        onClick={handleLogoClick}
         className="hover:cursor-pointer bg-transparent border-none"
       >
         <img
@@ -97,10 +99,10 @@ const Header = () => {
           <button
             key={route.path}
             onClick={() => handleRouteChange(route.path)}
-            className={`py-2 px-1 text-[#555] font-medium transition-colors duration-200 ${
+            className={`py-2 px-1 text-white font-medium transition-colors duration-200 ${
               isActiveRoute(route.path)
-                ? "text-[#3a7ca5] border-b-2 border-[#3a7ca5]"
-                : "hover:text-[#3a7ca5]"
+                ? "text-[#f5d58e] border-b-2 border-[#f5d58e]"
+                : "hover:text-[#f5d58e]"
             }`}
           >
             {route.label[selectedLang]}
@@ -109,7 +111,7 @@ const Header = () => {
         <select
           onChange={handleLanguageChange}
           value={selectedLang}
-          className="ml-4 p-2 bg-white text-[#555] rounded-md border border-[#ddd] focus:outline-none focus:ring-1 focus:ring-[#3a7ca5]"
+          className="ml-4 p-2 bg-white text-[#0a2540] rounded-md border border-[#f5d58e] focus:outline-none focus:ring-1 focus:ring-[#f5d58e]"
         >
           {languages.map((lang) => (
             <option key={lang} value={lang}>
@@ -120,7 +122,7 @@ const Header = () => {
       </div>
 
       <button
-        className="lg:hidden p-2 text-[#555]"
+        className="lg:hidden p-2 text-white"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         <svg
@@ -140,7 +142,7 @@ const Header = () => {
       </button>
 
       {isMobileMenuOpen && (
-        <div className="absolute top-[90px] left-0 right-0 bg-white shadow-lg lg:hidden p-4">
+        <div className="absolute top-[90px] left-0 right-0 bg-[#0a2540] shadow-lg lg:hidden p-4">
           {routes.map((route) => (
             <button
               key={route.path}
@@ -148,10 +150,10 @@ const Header = () => {
                 handleRouteChange(route.path);
                 setIsMobileMenuOpen(false);
               }}
-              className={`block w-full text-left py-3 px-4 text-[#555] ${
+              className={`block w-full text-left py-3 px-4 text-white ${
                 isActiveRoute(route.path)
-                  ? "bg-[#f0f7fc]"
-                  : "hover:bg-[#f9f9f9]"
+                  ? "bg-[#1a4b6d] text-[#f5d58e]"
+                  : "hover:bg-[#1a4b6d] hover:text-[#f5d58e]"
               }`}
             >
               {route.label[selectedLang]}
@@ -163,7 +165,7 @@ const Header = () => {
               setIsMobileMenuOpen(false);
             }}
             value={selectedLang}
-            className="mt-2 w-full p-2 bg-white text-[#555] rounded-md border border-[#ddd]"
+            className="mt-2 w-full p-2 bg-white text-[#0a2540] rounded-md border border-[#f5d58e]"
           >
             {languages.map((lang) => (
               <option key={lang} value={lang}>

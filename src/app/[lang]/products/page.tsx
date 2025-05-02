@@ -116,7 +116,7 @@ const ServicesPage = () => {
       <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center bg-gray-900 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://media.discordapp.net/attachments/1342080785250779177/1360451755220930861/IMG_4869.jpg?ex=68138eae&is=68123d2e&hm=8c28683430e4c4b6d7eb598d142be48151c62e1394c2755254bb35c19e1dc3eb&=&format=webp&width=1544&height=1294"
+            src="https://i.ibb.co/5XfRsF5C/davs10.jpg"
             alt="Himalayan Salt Mine"
             className="w-full h-full object-cover opacity-70"
           />
